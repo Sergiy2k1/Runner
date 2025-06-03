@@ -1,5 +1,6 @@
-﻿using Player.Const;
-using UnityEngine;
+﻿using UnityEngine;
+using System;
+using Player.Const;
 
 namespace Player.Animation
 {
@@ -9,9 +10,13 @@ namespace Player.Animation
         private Animator _animator;
         private PlayerState _currentState;
 
-        private static readonly int IsRunning = Animator.StringToHash("IsRunning");
-        private static readonly int IsJumping = Animator.StringToHash("IsJumping");
-        private static readonly int IsFalling = Animator.StringToHash("IsFalling");
+        // Animator parameter hashes
+        private static readonly int RunBool = Animator.StringToHash("IsRunning");
+        private static readonly int FallBool = Animator.StringToHash("IsFalling");
+        private static readonly int JumpTrigger = Animator.StringToHash("Jump");
+
+        // Event to notify when jump animation finishes
+        public event Action OnJumpAnimationEnd;
 
         private void Awake()
         {
@@ -20,31 +25,41 @@ namespace Player.Animation
 
         public void SetState(PlayerState newState)
         {
-            if (_currentState == newState) return;
+            if (_currentState == newState)
+                return;
 
             _currentState = newState;
-            
-            _animator.SetBool(IsRunning, false);
-            _animator.SetBool(IsJumping, false);
-            _animator.SetBool(IsFalling, false);
-            
+
+            // Reset bools
+            _animator.SetBool(RunBool, false);
+            _animator.SetBool(FallBool, false);
+
+            // Handle animator state transitions
             switch (newState)
             {
-                case PlayerState.Idle:
-                    break;
-
                 case PlayerState.Running:
-                    _animator.SetBool(IsRunning, true);
-                    break;
-
-                case PlayerState.Jumping:
-                    _animator.SetBool(IsJumping, true);
+                    _animator.SetBool(RunBool, true);
                     break;
 
                 case PlayerState.Falling:
-                    _animator.SetBool(IsFalling, true);
+                    _animator.SetBool(FallBool, true);
+                    break;
+
+                case PlayerState.Jumping:
+                    _animator.SetTrigger(JumpTrigger); // trigger will re-enter even if already playing
+                    break;
+
+                case PlayerState.Idle:
+                    // Do nothing for now
                     break;
             }
+        }
+
+        // Called from Animation Event at the end of Jump clip
+        public void OnJumpEnd()
+        {
+            Debug.Log("Jump animation finished → event fired");
+            OnJumpAnimationEnd?.Invoke();
         }
     }
 }
