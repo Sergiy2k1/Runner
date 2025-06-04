@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Audio;
+using Const;
+using UnityEngine;
 
 namespace Pickables
 {
@@ -12,6 +14,12 @@ namespace Pickables
             {
                 manager.AddCoins(value);
             }
+        }
+
+        protected override void PlayPickUpEffect()
+        {
+            AudioManager.Instance.PlaySFX(AudioConst.CoinColection);
+            base.PlayPickUpEffect();
         }
     }
 }

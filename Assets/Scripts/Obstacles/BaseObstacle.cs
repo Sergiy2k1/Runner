@@ -1,4 +1,6 @@
-﻿using Game;
+﻿using Audio;
+using Const;
+using Game;
 using UnityEngine;
 
 namespace Obstacles
@@ -12,6 +14,7 @@ namespace Obstacles
             if (collision.gameObject.TryGetComponent(out IGameLoseHandler player))
             {
                 OnPlayerHit(player);
+                AudioManager.Instance.PlaySFX(AudioConst.Hit);
             }
         }
     }

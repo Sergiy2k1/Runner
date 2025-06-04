@@ -1,4 +1,6 @@
-﻿using Player;
+﻿using Audio;
+using Const;
+using Player;
 
 namespace Game.States
 {
@@ -14,12 +16,14 @@ namespace Game.States
         public void Enter()
         {
             UnityEngine.Time.timeScale = 1f;
+            AudioManager.Instance.PlayMusic(AudioConst.Music);
             _player.EnableMovement(true);
         }
 
         public void Exit()
         {
             _player.EnableMovement(false);
+            AudioManager.Instance.StopPlayMusic();
         }
 
         public void Update()

@@ -43,7 +43,7 @@ namespace Pickables
         protected virtual void PlayPickUpEffect()
         {
             _visual
-                .DOScale(Vector3.zero, 0.15f)
+                .DOScale(Vector3.zero, 0.1f)
                 .SetEase(Ease.InBack)
                 .OnComplete(() => Destroy(gameObject));
         }
