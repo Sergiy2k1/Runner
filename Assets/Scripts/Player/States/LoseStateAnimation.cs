@@ -15,7 +15,6 @@ namespace Player.States
 
         public void Enter()
         {
-            Debug.Log("Lose State Animation");
             _animator.SetState(PlayerState.Lose);
         }
 

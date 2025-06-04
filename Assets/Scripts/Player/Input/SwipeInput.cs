@@ -17,14 +17,14 @@ namespace Player
         {
             HandleSwipe();
             int result = _laneChange;
-            _laneChange = 0; // спожили свайп — обнуляємо
+            _laneChange = 0;
             return result;
         }
 
         public bool JumpRequested()
         {
             bool result = _jumpRequested;
-            _jumpRequested = false; // одноразова дія
+            _jumpRequested = false; 
             return result;
         }
 

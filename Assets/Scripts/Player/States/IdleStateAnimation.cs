@@ -16,7 +16,6 @@ namespace Player.States
         public void Enter()
         {
             Time.timeScale = 1;
-            Debug.Log("ENTER STATE: IDle");
             _animator.SetState(PlayerState.Idle);
         }
 

@@ -76,7 +76,6 @@ namespace Player
 
         private bool IsGrounded()
         {
-            // Optional: Raycast can still be used here if needed
             return Physics.Raycast(_transform.position, Vector3.down, 0.2f);
         }
     }

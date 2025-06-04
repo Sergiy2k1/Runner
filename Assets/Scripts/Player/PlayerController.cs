@@ -72,6 +72,5 @@ namespace Player
         {
             _canMove = enable;
         }
-
     }
 }

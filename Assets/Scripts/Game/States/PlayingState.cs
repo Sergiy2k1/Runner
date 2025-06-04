@@ -15,7 +15,6 @@ namespace Game.States
 
         public void Enter()
         {
-            UnityEngine.Time.timeScale = 1f;
             AudioManager.Instance.PlayMusic(AudioConst.Music);
             _player.EnableMovement(true);
         }

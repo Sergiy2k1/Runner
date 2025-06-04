@@ -11,9 +11,7 @@ namespace Player.States
         public void SetState(IPlayerState newState)
         {
             if (_currentState?.GetType() == newState?.GetType())
-                return; // уникаємо дубля
-
-            Debug.Log($"StateMachine changing to: {newState.GetType().Name}");
+                return; 
 
             _currentState?.Exit();
             _currentState = newState;

@@ -17,12 +17,12 @@ namespace Game.States
         public void Enter()
         {
             _player.SetIdle();
-            _mainMenuPopup.ShowView(); // показуємо головне меню
+            _mainMenuPopup.ShowView(); 
         }
 
         public void Exit()
         {
-            _mainMenuPopup.HideView(); // ховаємо головне меню
+            _mainMenuPopup.HideView();
         }
 
         public void Update()

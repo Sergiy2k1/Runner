@@ -54,7 +54,6 @@ namespace Player.Animation
         
         public void OnJumpEnd()
         {
-            Debug.Log("Jump animation finished → event fired");
             OnJumpAnimationEnd?.Invoke();
         }
     }

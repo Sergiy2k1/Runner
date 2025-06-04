@@ -1,5 +1,4 @@
 ﻿using Player.Animation;
-using UnityEngine;
 
 namespace Player.States
 {
@@ -16,14 +15,12 @@ namespace Player.States
 
         public void Enter()
         {
-            Debug.Log("ENTER STATE: Jumping");
             _animator.SetState(Const.PlayerState.Jumping);
             _animator.OnJumpAnimationEnd += HandleJumpEnd;
         }
 
         public void Exit()
         {
-            Debug.Log("EXIT STATE: Jumping");
             _animator.OnJumpAnimationEnd -= HandleJumpEnd;
         }
 

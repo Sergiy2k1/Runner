@@ -15,7 +15,6 @@ namespace Player.States
 
         public void Enter()
         {
-            Debug.Log("Running state");
             _animator.SetState(PlayerState.Running);
         }
 
