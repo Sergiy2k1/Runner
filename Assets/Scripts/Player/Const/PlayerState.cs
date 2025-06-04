@@ -5,6 +5,6 @@ namespace Player.Const
         Idle,
         Running,
         Jumping,
-        Falling
+        Lose
     }
 }

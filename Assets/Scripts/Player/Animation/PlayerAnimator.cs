@@ -9,13 +9,12 @@ namespace Player.Animation
     {
         private Animator _animator;
         private PlayerState _currentState;
-
-        // Animator parameter hashes
+        
         private static readonly int RunBool = Animator.StringToHash("IsRunning");
-        private static readonly int FallBool = Animator.StringToHash("IsFalling");
+        private static readonly int Dancing = Animator.StringToHash("IsDancing");
+        private static readonly int Hit = Animator.StringToHash("Hit");
         private static readonly int JumpTrigger = Animator.StringToHash("Jump");
-
-        // Event to notify when jump animation finishes
+        
         public event Action OnJumpAnimationEnd;
 
         private void Awake()
@@ -29,33 +28,30 @@ namespace Player.Animation
                 return;
 
             _currentState = newState;
-
-            // Reset bools
+            
             _animator.SetBool(RunBool, false);
-            _animator.SetBool(FallBool, false);
-
-            // Handle animator state transitions
+            _animator.SetBool(Hit, false);
+            
             switch (newState)
             {
                 case PlayerState.Running:
                     _animator.SetBool(RunBool, true);
                     break;
 
-                case PlayerState.Falling:
-                    _animator.SetBool(FallBool, true);
+                case PlayerState.Lose:
+                    _animator.SetBool(Hit, true);
                     break;
 
                 case PlayerState.Jumping:
-                    _animator.SetTrigger(JumpTrigger); // trigger will re-enter even if already playing
+                    _animator.SetTrigger(JumpTrigger);
                     break;
 
                 case PlayerState.Idle:
-                    // Do nothing for now
+                    _animator.SetBool(Dancing, true);
                     break;
             }
         }
-
-        // Called from Animation Event at the end of Jump clip
+        
         public void OnJumpEnd()
         {
             Debug.Log("Jump animation finished → event fired");

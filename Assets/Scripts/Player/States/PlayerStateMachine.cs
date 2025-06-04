@@ -1,26 +1,28 @@
-﻿using Player.States;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class PlayerStateMachine
+namespace Player.States
 {
-    private IPlayerState _currentState;
-
-    public IPlayerState CurrentState => _currentState;
-
-    public void SetState(IPlayerState newState)
+    public class PlayerStateMachine
     {
-        if (_currentState?.GetType() == newState?.GetType())
-            return; // уникаємо дубля
+        private IPlayerState _currentState;
 
-        Debug.Log($"StateMachine changing to: {newState.GetType().Name}");
+        public IPlayerState CurrentState => _currentState;
 
-        _currentState?.Exit();
-        _currentState = newState;
-        _currentState?.Enter();
-    }
+        public void SetState(IPlayerState newState)
+        {
+            if (_currentState?.GetType() == newState?.GetType())
+                return; // уникаємо дубля
 
-    public void Update()
-    {
-        _currentState?.Update();
+            Debug.Log($"StateMachine changing to: {newState.GetType().Name}");
+
+            _currentState?.Exit();
+            _currentState = newState;
+            _currentState?.Enter();
+        }
+
+        public void Update()
+        {
+            _currentState?.Update();
+        }
     }
 }

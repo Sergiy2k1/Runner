@@ -15,18 +15,22 @@ namespace Player
         [SerializeField] private float _laneSwitchSpeed = 10f;
 
         [Header("Jump")]
-        [SerializeField] private float _jumpForce = 7f;
         [SerializeField] private LayerMask _groundMask;
-
+        
+        private PlayerStateMachine _stateMachine;
+        public PlayerStateMachine StateMachine => _stateMachine;
+        
         private Rigidbody _rb;
         private ILaneInput _input;
         private ForwardMover _forwardMover;
         private LaneSwitcher _laneSwitcher;
         private Jumper _jumper;
         private PlayerAnimator _playerAnimator;
-        private PlayerStateMachine _stateMachine;
 
-        private void Start()
+        private bool _canMove;
+       
+
+        private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
             _input = new CombinedInput();
@@ -35,33 +39,39 @@ namespace Player
 
             _forwardMover = new ForwardMover(transform, _forwardSpeed, _stateMachine, _playerAnimator);
             _laneSwitcher = new LaneSwitcher(transform, _laneOffset, _laneSwitchSpeed);
-            _jumper = new Jumper(_rb, _jumpForce, _groundMask, _stateMachine, _playerAnimator);
-
-            // Початковий стан
-            _stateMachine.SetState(new IdleState(_playerAnimator));
+            _jumper = new Jumper(transform, GetComponent<CapsuleCollider>(), _stateMachine, _playerAnimator);
+            
         }
 
         private void Update()
         {
-            // Рух вперед
+            if (!_canMove) return;
             _forwardMover.Move();
-
-            // Стрейф
+            
             int laneChange = _input.GetLaneChange();
             if (laneChange != 0)
             {
                 _laneSwitcher.ChangeLane(laneChange);
             }
             _laneSwitcher.UpdateLane();
-
-            // Стрибок (запускає стейт всередині Jumper)
+            
             if (_input.JumpRequested())
             {
                 _jumper.TryJump(true);
             }
             
-            // Оновлення FSM
             _stateMachine.Update();
+            
         }
+        public void SetIdle()
+        {
+            _stateMachine.SetState(new IdleStateAnimation(_playerAnimator));
+        }
+
+        public void EnableMovement(bool enable)
+        {
+            _canMove = enable;
+        }
+
     }
 }

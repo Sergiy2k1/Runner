@@ -27,7 +27,7 @@ namespace Player
 
             if (!_wasRunning)
             {
-                _stateMachine.SetState(new RunningState(_animator));
+                _stateMachine.SetState(new RunningStateAnimation(_animator));
                 _wasRunning = true;
             }
         }
